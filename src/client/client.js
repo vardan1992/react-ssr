@@ -1,13 +1,20 @@
 // starting point of client React application
-
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {createStore, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
+import thunk from 'redux-thunk';
 
 
 import Routes from './Routes';
 import {BrowserRouter} from 'react-router-dom';
+import reducers from './reducers';
+
+const store = createStore(reducers, {}, applyMiddleware(thunk))
 
 ReactDOM.hydrate(
-(<BrowserRouter>
+(
+<Provider store={store}><BrowserRouter>
     <Routes />
-</BrowserRouter>), document.getElementById('root'));
+</BrowserRouter></Provider>), document.getElementById('root'));

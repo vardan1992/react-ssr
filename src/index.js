@@ -6,6 +6,8 @@
 
 // const Home = require('./client/components/Home').default;
 
+import 'babel-polyfill';
+
 import express from 'express';
 
 import renderer from './helpers/renderer';
@@ -15,13 +17,13 @@ const app = express();
 
 app.use(express.static('public'));
 
-app.get("/", (req,res) => {
+app.get("*", (req,res) => {
 
    
-    res.send(renderer());
+    res.send(renderer(req));
 })
 
 
-app.listen(3000, () => {
-    console.log("Listening on port 3000")
+app.listen(5000, () => {
+    console.log("Listening on port 5000")
 })
