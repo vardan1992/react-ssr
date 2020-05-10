@@ -3,21 +3,23 @@ import { renderToString } from 'react-dom/server';
 //import Home from '../client/components/Home';
 
 import { StaticRouter } from 'react-router-dom';
+import {renderRoutes} from 'react-router-config';
+
 
 import Routes from '../client/Routes';
 
 import { Provider } from 'react-redux';
-import createStore from './createStore';
 
-export default (req) => {
 
-    const store = createStore();
+
+export default (req,store) => {
+
 
 
     const content = renderToString(
         <Provider store={store}>
             <StaticRouter location={req.path} context={{}}>
-                <Routes />
+                <div>{renderRoutes(Routes)}</div>
             </StaticRouter>
         </Provider>
 
@@ -28,6 +30,9 @@ export default (req) => {
         <head></head>
         <body>
            <div id="root">${content}</div>
+           <script>
+            window.INITIAL_DATA = ${JSON.stringify(store.getState())}
+           </script>
             <script src="bundle.js"></script>
         </body>  
     </html>`
